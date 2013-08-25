@@ -2,3 +2,6 @@
 *.js
 *.jpg
 node_modules
+public/happy
+public/sad
+public/lib
