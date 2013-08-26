@@ -2,3 +2,26 @@ img.smallpic {
   width: 100px;
   height: 120px;
 }
+
+div#top table {
+    border-collapse: collapse;
+}
+
+div#top table td{
+    border: solid black 0px;
+}
+
+td.score_label {
+/*    text-decoration: underline; */
+    font-size: 16pt;
+    color: #bb0;
+    width: 4em;
+    padding-bottom: 0.25em
+}
+
+td.score {
+    font-size: 16pt;
+/*    padding-bottom: 0.25em; */
+    text-align: left;
+    width: 2.5em;
+}

@@ -36,13 +36,13 @@ $ ->
   showScores = ->
     stats = calcStats(games)
     $("#game_count").text(stats.game_count)
-    $("#fastest_time").text(stats.fastest_time)
-    $("#slowest_time").text(stats.slowest_time)
-    $("#avg_time").text(stats.average_time)
     $("#perfect_count").text(stats.perfect_count)
-    $("#max_trys").text(stats.max_trys)
-    $("#min_trys").text(stats.min_trys)
-    $("#avg_trys").text(stats.average_trys)
+    $("#fastest_time").text(stats.fastest_time)
+#    $("#slowest_time").text(stats.slowest_time)
+#    $("#avg_time").text(stats.average_time)
+#    $("#max_trys").text(stats.max_trys)
+#    $("#min_trys").text(stats.min_trys)
+#    $("#avg_trys").text(stats.average_trys)
     return
 
   prefetch = ->
@@ -64,8 +64,8 @@ $ ->
   imageLoaded = ->
     counter += 1
 #    console.log "Loaded #{counter}"
-    if counter >= numhappy + numsad
-      startGame()
+    if counter == numhappy + numsad
+      $("#startgame").show()
     return
 
   startGameTimer = ->
@@ -79,12 +79,13 @@ $ ->
 #    game_count += 1
     games.push { secs: getGameElapsedSecs(), trys: gameAttempts}
     showScores()
+    $("#facetable").empty()
     return
 
   correctPick = ->
     gameAttempts += 1
     endGame()
-    startGame()
+#    startGame()
     return
 
   incorrectPick = ->
@@ -101,8 +102,6 @@ $ ->
       $("#facetable tr").last().append("<td><img class='smallpic happy' src='/public/happy/happy#{rh}.jpg'></td>")
     else
       $("#facetable tr").last().append("<td><img class='smallpic sad' src='/public/sad/sad#{ids[picnum-1]}.jpg'></td>")
-#    if endofrow == true
-#      $("#facetable").append("</tr>")
     return
 
   findRandomFalseEntry = (boolArray, len) ->
@@ -130,15 +129,14 @@ $ ->
 
   showFaceMatrix = ->
     sadids=makeSadIds()
-    $("#facetable").empty()
     htgt = parseInt(Math.random()*20 + 1)
     appendpic(sadids,picnum,htgt) for picnum in [1..totpics]
     $(".happy").click ->
       correctPick()
-      return
+      return false
     $(".sad").click ->
       incorrectPick()
-      return
+      return false
     return
 
   startGame = ->
@@ -146,12 +144,11 @@ $ ->
     gameAttempts = 0
     startGameTimer()
     return
-
   
   sadObj=[]
   happyObj=[]
   prefetch()
-  $("#go").click ->
-    showAll()
-    return
+  $("#startgame").click ->
+    startGame()
+    return false
   return
