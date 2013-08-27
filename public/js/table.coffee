@@ -124,7 +124,8 @@ $ ->
     for snum in [1..totpics]
       n = findRandomFalseEntry(sadUsed,numsad)
       sadUsed[n]=true
-      sadids[snum-1]=n+1
+#      sadids[snum-1]=n+1
+      sadids.push(n+1)
     return sadids
 
   showFaceMatrix = ->
