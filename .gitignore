@@ -1,6 +1,9 @@
 *~
 *.js
 *.jpg
+*.tgz
+pack.sh
+release.txt
 node_modules
 public/happy
 public/sad
