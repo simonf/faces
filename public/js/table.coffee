@@ -119,7 +119,7 @@ $ ->
   makeSadIds= ->
     sadUsed = []
     for snum in [1..numsad]
-      sadUsed[snum-1]=false
+      sadUsed.push(false)
     sadids = []
     for snum in [1..totpics]
       n = findRandomFalseEntry(sadUsed,numsad)
