@@ -37,6 +37,7 @@ $ ->
     stats = calcStats(games)
     $("#game_count").text(stats.game_count)
     $("#perfect_count").text(stats.perfect_count)
+    $("#latest_time").text(games[games.length-1].secs)
     $("#fastest_time").text(stats.fastest_time)
 #    $("#slowest_time").text(stats.slowest_time)
 #    $("#avg_time").text(stats.average_time)
