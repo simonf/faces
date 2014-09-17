@@ -7,6 +7,9 @@ $ ->
   gameAttempts = 0
   games = []
   gameStartTime = 0
+  sessionStartTime = 0
+  in_session = false
+  session_secs = 0
 
   calcStats = (ga) ->
     stats = {
@@ -66,12 +69,26 @@ $ ->
     counter += 1
 #    console.log "Loaded #{counter}"
     if counter == numhappy + numsad
-      $("#startgame").show()
+      showLinks()
     return
+
+  showLinks = ->
+    $("#links").show()
+    return
+
+  hideLinks = ->
+    $("#links").hide()
 
   startGameTimer = ->
     gameStartTime = (new Date()).getTime()
     return
+
+  startSessionTimer = (secs)->
+    sessionStartTime = (new Date()).getTime()
+    session_secs = secs
+    in_session = true
+    return
+
     
   getGameElapsedSecs = ->
     secs = parseInt(((new Date()).getTime() - gameStartTime)/100)/10.0
@@ -79,14 +96,27 @@ $ ->
   endGame = ->
 #    game_count += 1
     games.push { secs: getGameElapsedSecs(), trys: gameAttempts}
-    showScores()
     $("#facetable").empty()
+    showScores()
+    checkIfSession()
+    return
+
+  checkIfSession = ->
+    if in_session
+      now = (new Date()).getTime()
+      if session_secs > (now - sessionStartTime)/1000
+        setTimeout startGame, 1000
+      else
+        session_secs = 0
+        in_session = false
+        showLinks()
+    else
+      showLinks()
     return
 
   correctPick = ->
     gameAttempts += 1
     endGame()
-#    startGame()
     return
 
   incorrectPick = ->
@@ -144,13 +174,18 @@ $ ->
   startGame = ->
     showFaceMatrix()
     gameAttempts = 0
+    hideLinks()
     startGameTimer()
     return
-  
+
   sadObj=[]
   happyObj=[]
   prefetch()
   $("#startgame").click ->
     startGame()
+    return false
+  $("#start60").click ->
+    startSessionTimer(60)
+    startGame(60)
     return false
   return
